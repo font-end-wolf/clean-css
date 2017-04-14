@@ -2440,14 +2440,6 @@ vows.describe('integration tests')
     }, { level: 2, compatibility: '+properties.backgroundSizeMerging' })
   )
   .addBatch(
-    optimizerContext('multiple backgrounds', {
-      'should not produce longer values': [
-        'p{background:no-repeat;background-position:100% 0,0 100%,100% 100%,50% 50%}',
-        'p{background:no-repeat;background-position:100% 0,0 100%,100% 100%,50% 50%}'
-      ]
-    }, { level: 2 })
-  )
-  .addBatch(
     optimizerContext('misc level 2', {
       'outline auto': [
         'a{outline:5px auto -webkit-focus-ring-color}',

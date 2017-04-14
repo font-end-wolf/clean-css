@@ -1276,8 +1276,6 @@ vows.describe(optimizeProperties)
             ['property-value', 'left', [[1, 17, undefined]]],
             ['property-value', 'no-repeat', [[1, 40, undefined]]],
             ['property-value', ','],
-            ['property-value', 'top', [[1, 13, undefined]]],
-            ['property-value', 'left', [[1, 17, undefined]]],
             ['property-value', 'no-repeat', [[1, 50, undefined]]]
           ]
         ]);
@@ -1387,8 +1385,6 @@ vows.describe(optimizeProperties)
             ['property-value', 'left', [[1, 17, undefined]]],
             ['property-value', 'no-repeat', [[1, 40, undefined]]],
             ['property-value', ','],
-            ['property-value', 'top', [[1, 13, undefined]]],
-            ['property-value', 'left', [[1, 17, undefined]]],
             ['property-value', 'no-repeat', [[1, 50, undefined]]]
           ]
         ]);
@@ -1406,8 +1402,7 @@ vows.describe(optimizeProperties)
             ['property-value', 'no-repeat', [[1, 50, undefined]]],
             ['property-value', 'content-box', [[1, 20, undefined]]],
             ['property-value', ','],
-            ['property-value', 'no-repeat', [[1, 60, undefined]]],
-            ['property-value', 'content-box', [[1, 20, undefined]]]
+            ['property-value', 'no-repeat', [[1, 60, undefined]]]
           ]
         ]);
       }
@@ -1427,14 +1422,12 @@ vows.describe(optimizeProperties)
             ['property-value', 'no-repeat', [[1, 40, undefined]]],
             ['property-value', ','],
             ['property-value', 'url(image.jpg)', [[1, 92, undefined]]],
-            ['property-value', 'top', [[1, 13, undefined]]],
-            ['property-value', 'left', [[1, 17, undefined]]],
             ['property-value', 'no-repeat', [[1, 50, undefined]]]
           ]
         ]);
       }
     },
-    'not too long into multiplex - over a property': {
+    'not too long into multiplex - twice with trailing non-multiplex': {
       'topic': function () {
         return _optimize('p{background:top left;background-repeat:no-repeat,no-repeat;background-image:url(image.png)}');
       },
@@ -1445,82 +1438,30 @@ vows.describe(optimizeProperties)
             ['property-name', 'background', [[1, 2, undefined]]],
             ['property-value', 'url(image.png)', [[1, 77, undefined]]],
             ['property-value', 'top', [[1, 13, undefined]]],
-            ['property-value', 'left', [[1, 17, undefined]]]
-          ],
-          [
-            'property',
-            ['property-name', 'background-repeat', [[1, 22, undefined]]],
+            ['property-value', 'left', [[1, 17, undefined]]],
             ['property-value', 'no-repeat', [[1, 40, undefined]]],
-            ['property-value', ',', [[1, 49, undefined]]],
+            ['property-value', ','],
             ['property-value', 'no-repeat', [[1, 50, undefined]]]
           ]
         ]);
       }
     },
-    'too long into multiplex #1': {
+    'too long into multiplex - longhand after shorthand': {
       'topic': function () {
-        return _optimize('p{background:url(/long/image/path.png);background-repeat:no-repeat,no-repeat}');
+        return _optimize('p{background:url(image.png) center center,url(image.jpg);background-repeat:repeat-x}');
       },
       'into': function (properties) {
         assert.deepEqual(properties, [
           [
             'property',
             ['property-name', 'background', [[1, 2, undefined]]],
-            ['property-value', 'url(/long/image/path.png)', [[1, 13, undefined]]]
-          ],
-          [
-            'property',
-            ['property-name', 'background-repeat', [[1, 39, undefined]]],
-            ['property-value', 'no-repeat', [[1, 57, undefined]]],
-            ['property-value', ',', [[1, 66, undefined]]],
-            ['property-value', 'no-repeat', [[1, 67, undefined]]]
-          ]
-        ]);
-      }
-    },
-    'too long into multiplex #2': {
-      'topic': function () {
-        return _optimize('p{background:content-box padding-box;background-repeat:no-repeat,no-repeat}');
-      },
-      'into': function (properties) {
-        assert.deepEqual(properties, [
-          [
-            'property',
-            ['property-name', 'background', [[1, 2, undefined]]],
-            ['property-value', 'content-box', [[1, 13, undefined]]],
-            ['property-value', 'padding-box', [[1, 25, undefined]]]
-          ],
-          [
-            'property',
-            ['property-name', 'background-repeat', [[1, 37, undefined]]],
-            ['property-value', 'no-repeat', [[1, 55, undefined]]],
-            ['property-value', ',', [[1, 64, undefined]]],
-            ['property-value', 'no-repeat', [[1, 65, undefined]]]
-          ]
-        ]);
-      }
-    },
-    'too long into multiplex #3 - equal size': {
-      'topic': function () {
-        return _optimize('p{background:top left / 20px 20px;background-repeat:no-repeat,no-repeat}');
-      },
-      'into': function (properties) {
-        assert.deepEqual(properties, [
-          [
-            'property',
-            ['property-name', 'background', [[1, 2, undefined]]],
-            ['property-value', 'top', [[1, 13, undefined]]],
-            ['property-value', 'left', [[1, 17, undefined]]],
-            ['property-value', '/'],
-            ['property-value', '20px', [[1, 24, undefined]]],
-            ['property-value', '20px', [[1, 29, undefined]]]
-          ],
-          [
-            'property',
-            ['property-name', 'background-repeat', [[1, 34, undefined]]],
-            ['property-value', 'no-repeat', [[1, 52, undefined]]],
-            ['property-value', ',', [[1, 61, undefined]]],
-            ['property-value', 'no-repeat', [[1, 62, undefined]]]
+            ['property-value', 'url(image.png)', [[1, 13, undefined]]],
+            ['property-value', 'center', [[1, 28, undefined]]],
+            ['property-value', 'center', [[1, 35, undefined]]],
+            ['property-value', 'repeat-x', [[1, 75, undefined]]],
+            ['property-value', ','],
+            ['property-value', 'url(image.jpg)', [[1, 42, undefined]]],
+            ['property-value', 'repeat-x', [[1, 75, undefined]]],
           ]
         ]);
       }
